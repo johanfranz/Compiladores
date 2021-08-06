@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+void letraXletra(){
+	int a = 4
+	a = a - 3
+	string instruccion = "";
+	cout<<"escribir instruccion: ";
+	cin>> instruccion;
+	getline(cin, instruccion);
+	int n=instruccion.size();
+	for (int i = 0 ; i < n ; ++i)
+	{
+		cout<<"\t"<<instruccion[i]<<endl;
+	}
+
+}

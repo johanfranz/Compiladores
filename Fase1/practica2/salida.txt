@@ -1,0 +1,4 @@
+Este es un 1234	
+programa con 456	
+varios numeros 18	
+al final de cada linea 000000000000	
