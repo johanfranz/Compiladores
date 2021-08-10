@@ -1,10 +1,5 @@
 using namespace std;
 
-vector<float> allCosines;
-
-typedef map<string, int> DocMap;
-typedef map<string, int> QueryMap;
-typedef map<string, float> Similarity;
 
 void countWords(istream& in, DocMap& words) {
     string s;

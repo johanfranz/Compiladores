@@ -2,9 +2,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import ply.lex as lex
+import numpy as np
+from sklearn.metrics import jaccard_score
 
-# resultado del analisis
-#resultado_lexema = []
+from Bio.pairwise2 import format_alignment
+from Bio import pairwise2
+import string
 
 reservada = (
     # Palabras Reservadas
@@ -250,6 +253,40 @@ def prueba(data):
     return resultado_lexema
 
  # instanciamos el analizador lexico
+def jaccard(a, b):
+    c = a.intersection(b)
+    return float(len(c)) / (len(a) + len(b) - len(c))
+
+def Convert(string):
+    li = list(string.split(" "))
+    return li
+
+def Convert2(string):
+    list1=[]
+    list1[:0]=string
+    return list1
+
+def cambio(a,elemento,canje):
+  return [canje if x==elemento else x for x in a]
+  #return [canje if x==elemento else x for x in a]
+#cambio(a,'#','A')
+def listToString(s): 
+    # initialize an empty string
+    str1 = "" 
+    
+    # traverse in the string  
+    for ele in s: 
+        str1 += ele  
+    
+    # return string  
+    return str1 
+def listToString2(s): 
+    
+    # initialize an empty string
+    str1 = ''
+    
+    # return string  
+    return (str1.join(s))
 analizador = lex.lex()
 
 if __name__ == '__main__':
@@ -257,29 +294,40 @@ if __name__ == '__main__':
     f2=open("file2.cpp","r")
     data1 = f1.read()
     data2 = f2.read()
-
 #    data = input("ingrese: ")
-    r1=listToString(prueba(data1))
-    r2=listToString(prueba(data2))
-    print(r1)
-    print(r2)
+    r1=prueba(data1)
+    r2=prueba(data2)
+    r1.append('#')
+    r3=r1+r2
+    print(r1,"\n")
+    print(r2,"\n")
+    print(r3,"\n")
     #print(resultado_lexema)
 
+    canjes=Convert2(string.ascii_uppercase+string.ascii_lowercase)
+    a=r3
+    init=0
+    for i in range(init,len(a)):
+        #for j in range(0,len(a)):
+        if (len(a[i])>1):
+            a=cambio(a,a[i],canjes[init])
+            init=init+1
 
-    doc_a = r1
-    doc_b = r2
-    documents = [doc_a, doc_b]
+    print(a,'\n')
 
-    #count_vectorizer = CountVectorizer(stop_words='spanish')
-    count_vectorizer = CountVectorizer()
-    sparse_matrix = count_vectorizer.fit_transform(documents)
+    division=a.index('#')
 
-    # OPTIONAL: Convert Sparse Matrix to Pandas Dataframe if you want to see the word frequencies.
+    code1=listToString2(a[0:division])
+    code2=listToString2(a[division+1:])
 
-    doc_term_matrix = sparse_matrix.todense()
-    df = pd.DataFrame(doc_term_matrix,
-                      columns=count_vectorizer.get_feature_names(),
-                      index=['doc_a', 'doc_b'])
-    print(df)
+    print(len(code2))
 
-    print(cosine_similarity(df, df))
+    #for a in pairwise2.align.localxx(code1, code2):
+        #print(format_alignment(*a))
+    for a in pairwise2.align.globalms(code2, code1, 2, -1,-1,-1):
+        print(format_alignment(*a))
+    print(a[2:])
+
+    score=int(a[2])
+    similitud=score*100.0/(max(len(code1),len(code2)))
+    print(similitud)
