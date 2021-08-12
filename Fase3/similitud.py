@@ -296,11 +296,13 @@ if __name__ == '__main__':
     data2 = f2.read()
 #    data = input("ingrese: ")
     r1=prueba(data1)
+#    print(r1)
+
     r2=prueba(data2)
     r1.append('#')
     r3=r1+r2
-    print(r1,"\n")
-    print(r2,"\n")
+    #print(r1,"\n")
+    #print(r2,"\n")
     print(r3,"\n")
     #print(resultado_lexema)
 
@@ -314,7 +316,6 @@ if __name__ == '__main__':
             init=init+1
 
     print(a,'\n')
-
     division=a.index('#')
 
     code1=listToString2(a[0:division])
@@ -326,8 +327,11 @@ if __name__ == '__main__':
         #print(format_alignment(*a))
     for a in pairwise2.align.globalms(code2, code1, 2, -1,-1,-1):
         print(format_alignment(*a))
-    print(a[2:])
+#    print(a[2:])
 
     score=int(a[2])
     similitud=score*100.0/(max(len(code1),len(code2)))
-    print(similitud)
+    if similitud >= 100:
+        print("\nNivel de similitud:", 100,"%")
+    else:
+        print("\nNivel de similitud:",similitud,"%")
